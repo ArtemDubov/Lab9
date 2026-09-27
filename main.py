@@ -2,6 +2,7 @@
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 from io import BytesIO
 import pandas as pd
 from sympy import symbols, Matrix, pi, latex
@@ -15,6 +16,15 @@ app = FastAPI(
     description="API для преобразования координат из Excel-файла в отчёт",
     version="1.0.0"
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 def transform_coordinates(df, initial_system, final_system, params):
